@@ -1,37 +1,36 @@
-USE FoodExpress;
+USE FoodExpress2;
 
 Insert INTO Vendor Values
-(01,'Dominos','286 5th Avenue'),
-(02, 'Five Guys', '48 Baker Street'),
-(03,'Panera Bread', '345 Jackson Blvd'),
-(04,'IHOP','21th Maple Street'),
-(05,'Dennys','68 Oak Street')
+(1,'Dominos','286 5th Avenue'),
+(2,'Five Guys', '48 Baker Street'),
+(3,'Panera Bread', '345 Jackson Blvd'),
+(4,'IHOP','21th Maple Street'),
+(5,'Dennys','68 Oak Street')
 ;
 
 INSERT INTO MenuItem Values
-(001,'Large Meats Pizza',12.99,01),
-(002,'Large Cheese Pizza', 10.99,01),
-(003,'Large Veggie Pizza',13.99,01),
-(004, 'Large Fries',5.99,01),
-(005, 'Small Fries', 3.99,01),
-(006, '6 pic Wings', 6.99,01),
-(101, 'Burger',5.99,02),
-(102, 'Cheese Burger', 7.99,02), 
-(103,'Large Fries',6.99,02),
-(104, 'Small Fries',4.99,02),
-(201,'Bacon Turkey Sandwich',8.99,03),
-(202, 'Chicken Salad',9.79,03),
-(203, 'Broccoli Cheddar Soup', 6.49,03),
-(204, 'Mac & Cheese',7.99,03),
-(301,'Buttermilk Pandcakes',9.99,04),
-(302, 'Big Steak Omelette', 10.99,04),
-(303,'Breakfast Burrito', 11.99,04),
-(304, 'Steakburger with fries', 14.99,04),
-(401, 'All-American Slam', 13.99,05),
-(402, 'Burbon Bacon Burger', 14.99,05),
-(403, 'Prime Rib Philly Melt', 12.99,05),
-(404, 'Chicken Tenders w/Fries', 10.99,05)
-;
+(001, 01,'Large Meats Pizza',12.99),
+(002, 01,'Large Cheese Pizza', 10.99),
+(003, 01,'Large Veggie Pizza',13.99),
+(004, 01, 'Large Fries',5.99),
+(005, 01, 'Small Fries', 3.99),
+(006, 01,'6 pic Wings', 6.99),
+(101, 02, 'Burger',5.99),
+(102, 02, 'Cheese Burger', 7.99), 
+(103,02,'Large Fries',6.99),
+(104, 02,'Small Fries',4.99),
+(201, 03,'Bacon Turkey Sandwich',8.99),
+(202, 03,'Chicken Salad',9.79),
+(203, 03,'Broccoli Cheddar Soup', 6.49),
+(204, 03,'Mac & Cheese',7.99),
+(301, 04,'Buttermilk Pandcakes',9.99),
+(302, 04,'Big Steak Omelette', 10.99),
+(303,04,'Breakfast Burrito', 11.99),
+(304, 04,'Steakburger with fries', 14.99),
+(401, 05,'All-American Slam', 13.99),
+(402, 05,'Burbon Bacon Burger', 14.99),
+(403, 05,'Prime Rib Philly Melt', 12.99),
+(404, 05,'Chicken Tenders w/Fries', 10.99);
 
 INSERT INTO Customer VALUES
 (1, 'Jame Jackson', 'jamiejackson@email.com','45 Apple Lane','(443) 999-0102'),
@@ -39,19 +38,36 @@ INSERT INTO Customer VALUES
 (3, 'Eddie Brock', 'eddievemon009@gmail.com', '34th street', '(443) 390-0056')
 ;
 
-INSERT INTO Orders VALUES 
-(01,'Complete','15 mins',001,1),
-(02, 'Complete', '10 mins',101, 2),
-(03, 'In-Progress', '30 mins',303,2)
-;
-
 INSERT INTO Driver VALUES
 (100, '(443) 987-001','Charlie Brown'),
 (200, '(443) 334-2111', 'Lily Rose')
 ;
+INSERT INTO Driver Value(300, '(443) 555-5555', 'Stacy Fakename');
 
-INSERT INTO Delivery VALUES 
-(1,'Complete', '34th street', '5:30pm', 01,100),
-(2, 'Complete', '34th street', '3:25pm', 02,200),
-(3, 'In-Progress', '112 Holly Court', NULL, 03,200)
-;
+ 
+INSERT INTO Orders
+(OrderID, CustomerID, Status, TotalAmount)
+VALUES
+(1, 1, 'Placed', 18.98),
+(2, 2, 'Preparing', 15.98),
+(3, 3, 'Delivered', 12.99);
+ 
+ 
+INSERT INTO OrderItem
+(OrderItemID, OrderID, ItemID, Quantity)
+VALUES
+(1, 1, 001, 1),
+(2, 1, 004, 1),
+ 
+(3, 2, 101, 1),
+(4, 2, 104, 2),
+ 
+(5, 3, 403, 1);
+ 
+INSERT INTO Delivery
+(DeliveryID, OrderID, DriverID, DeliveryStatus)
+VALUES
+(1, 1, 100, 'Assigned'),
+(2, 2, 200, 'Picked Up'),
+(3, 3, 300, 'Delivered');
+

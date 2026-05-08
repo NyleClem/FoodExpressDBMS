@@ -1,56 +1,107 @@
-CREATE DATABASE FoodExpress;
-USE FoodExpress;
+CREATE DATABASE FoodExpress2;
+USE FoodExpress2;
 
-CREATE TABLE Vendor(
-VendorID INT PRIMARY KEY,
-Location Varchar(255) NOT NULL,
-VendorName VARCHAR(50) NOT NULL
+-- CUSTOMER TABLE
+-- Stores customer account information
+
+CREATE TABLE Customer (
+CustomerID INT PRIMARY KEY AUTO_INCREMENT,
+Name VARCHAR(50) NOT NULL,
+Email VARCHAR(50) UNIQUE NOT NULL,
+Phone VARCHAR(50) NOT NULL,
+Address VARCHAR(255) NOT NULL
 );
 
 
-Create TABLE MenuItem(
-ItemID INT PRIMARY KEY,
+-- VENDOR TABLE
+-- Stores restaurant/vendor information
+
+
+CREATE TABLE Vendor (
+VendorID INT PRIMARY KEY AUTO_INCREMENT,
+VendorName VARCHAR(50) NOT NULL,
+Location VARCHAR(255) NOT NULL
+);
+
+
+ -- MENU ITEM TABLE
+-- Each menu item belongs to one vendor
+
+
+CREATE TABLE MenuItem (
+ItemID INT PRIMARY KEY AUTO_INCREMENT,
+VendorID INT NOT NULL,
 ItemName VARCHAR(50) NOT NULL,
 Price DECIMAL(10,2) NOT NULL,
-VendorID INT NOT NULL,
-foreign KEY (VendorID) References Vendor(VendorID)
-);
-CREATE TABLE Customer(
-CustomerID INT PRIMARY KEY,
-CustomerName VARCHAR(50) NOT NULL,
-Email VARCHAR(50) NOT NULL,
-Address VARCHAR(225) NOT NULL,
-Phone VARCHAR(50) NOT NULL
+
+FOREIGN KEY (VendorID)
+REFERENCES Vendor(VendorID)
+ON DELETE CASCADE
 );
 
 
+-- ORDERS TABLE
+-- One customer can place many orders
 
-CREATE TABLE Orders(
-OrderID INT PRIMARY KEY,
-Statue VARCHAR(50) NOT NULL,
-OrderTime VARCHAR(50) NOT NULL,
-ItemID INT,
-CustomerID INT,
-FOREIGN KEY (ItemID) REFERENCES MenuItem(ItemID),
-FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) 
+
+CREATE TABLE Orders (
+OrderID INT PRIMARY KEY AUTO_INCREMENT,
+CustomerID INT NOT NULL,
+Status VARCHAR(50) NOT NULL DEFAULT 'Placed',
+OrderTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+TotalAmount DECIMAL(10,2) NOT NULL,
+
+FOREIGN KEY (CustomerID)
+REFERENCES Customer(CustomerID)
+ON DELETE CASCADE
 );
 
 
-CREATE TABLE Driver(
-DriverID INT PRIMARY KEY,
-Phone VARCHAR(50) NOT NULL,
-DriverName VarCHAR(50) NOT NULL
+-- ORDER ITEM TABLE
+-- Allows one order to contain multiple menu items
+
+CREATE TABLE OrderItem (
+OrderItemID INT PRIMARY KEY AUTO_INCREMENT,
+OrderID INT NOT NULL,
+ItemID INT NOT NULL,
+Quantity INT NOT NULL CHECK (Quantity > 0),
+
+FOREIGN KEY (OrderID)
+REFERENCES Orders(OrderID)
+ON DELETE CASCADE,
+
+FOREIGN KEY (ItemID)
+REFERENCES MenuItem(ItemID)
+ON DELETE CASCADE
 );
 
 
+-- DRIVER TABLE
+-- Stores delivery driver information
 
-CREATE TABLE Delivery(
-DeliveryID INT PRIMARY KEY,
-DeliveryStatus VARCHAR(50) NOT NULL,
-Dropoff VARCHAR(50) NOT NULL,
-DeliveryTime VARCHAR(50) NULL,
-OrderID INT,
-DriverID INT,
-FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
-FOREIGN KEY (DriverID) REFERENCES Driver(DriverID)
+
+CREATE TABLE Driver (
+DriverID INT PRIMARY KEY AUTO_INCREMENT,
+DriverName VARCHAR(50) NOT NULL,
+Phone VARCHAR(20) NOT NULL
+);
+
+-- DELIVERY TABLE
+-- Tracks delivery assignments and statuses
+
+
+CREATE TABLE Delivery (
+DeliveryID INT PRIMARY KEY AUTO_INCREMENT,
+OrderID INT NOT NULL,
+DriverID INT NOT NULL,
+DeliveryStatus VARCHAR(50) NOT NULL DEFAULT 'Assigned',
+DeliveryTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+FOREIGN KEY (OrderID)
+REFERENCES Orders(OrderID)
+ON DELETE CASCADE,
+
+FOREIGN KEY (DriverID)
+REFERENCES Driver(DriverID)
+ON DELETE CASCADE
 );
