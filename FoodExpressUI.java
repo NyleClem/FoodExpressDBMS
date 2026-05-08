@@ -75,18 +75,22 @@ private void viewCustomersAdmin() {
         } catch (Exception ex) {
             output.setText(ex.getMessage());
         }
+
     }private void viewOrdersAdmin() {
         output.setText("");  // Clear output
 
         try (Connection conn = getConn();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM Customer")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM Orders")) {
 
             // Loop through result rows
             while (rs.next()) {
                 output.append(
-                        rs.getInt("id") + " | " +
-                        rs.getString("name") + " | " +
+                        rs.getInt("Order id") + " | " +
+                        rs.getString("CustomerID") + " | " +
+                        rs.getString("Status") + " | " +
+                        rs.getString("OrdeTime") + " | " +
+                        rs.getString("Total Amount") + " | " +
                         rs.getString("major") + "\n"
                 );
             }
@@ -95,6 +99,31 @@ private void viewCustomersAdmin() {
             output.setText(ex.getMessage());
         }
     }
+    }private void viewDeliveryAdmin() {
+        output.setText("");  // Clear output
+
+        try (Connection conn = getConn();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM Orders")) {
+
+            // Loop through result rows
+            while (rs.next()) {
+                output.append(
+                        rs.getInt("DeliveryID") + " | " +
+                        rs.getString("OrderID") + " | " +
+                        rs.getString("DriverID") + " | " +
+                        rs.getString("OrdeTime") + " | " +
+                        rs.getString("Delivery Status") + " | " +
+                        rs.getString("Delivery Time") + "\n"
+                );
+            }
+
+        } catch (Exception ex) {
+            output.setText(ex.getMessage());
+        }
+    }
+   
+
 
     public static void main (String[] arg)
     {
