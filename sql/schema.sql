@@ -3,19 +3,26 @@ USE FoodExpress;
 
 CREATE TABLE Vendor(
 VendorID INT PRIMARY KEY,
-Location Varchar(255) NOT NULL
+Location Varchar(255) NOT NULL,
+VendorName VARCHAR(50) NOT NULL
 );
+
+
 Create TABLE MenuItem(
 ItemID INT PRIMARY KEY,
-MenuName VARCHAR(50) NOT NULL,
-Price DECIMAL(10,2) NOT NULL
+ItemName VARCHAR(50) NOT NULL,
+Price DECIMAL(10,2) NOT NULL,
+VendorID INT NOT NULL,
+foreign KEY (VendorID) References Vendor(VendorID)
 );
 CREATE TABLE Customer(
 CustomerID INT PRIMARY KEY,
+CustomerName VARCHAR(50) NOT NULL,
 Email VARCHAR(50) NOT NULL,
 Address VARCHAR(225) NOT NULL,
-Phone VARCHAR(50) NOT NULL,
+Phone VARCHAR(50) NOT NULL
 );
+
 
 
 CREATE TABLE Orders(
@@ -31,14 +38,17 @@ FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
 
 CREATE TABLE Driver(
 DriverID INT PRIMARY KEY,
-Phone VARCHAR(50) NOT NULL 
+Phone VARCHAR(50) NOT NULL,
+DriverName VarCHAR(50) NOT NULL
 );
+
+
 
 CREATE TABLE Delivery(
 DeliveryID INT PRIMARY KEY,
 DeliveryStatus VARCHAR(50) NOT NULL,
 Dropoff VARCHAR(50) NOT NULL,
-DeliveryTime VARCHAR(50) NOT NULL,
+DeliveryTime VARCHAR(50) NULL,
 OrderID INT,
 DriverID INT,
 FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
