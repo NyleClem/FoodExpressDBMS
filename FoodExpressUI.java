@@ -34,7 +34,7 @@ public class FoodExpressUI extends JFrame{
         Class.forName("com.mysql.cj.FoodExpress.Driver");  // Load MySQL driver
         return DriverManager.getConnection(url, user, password);
     }
-private void viewCustomers() {
+private void viewCustomersAdmin() {
         output.setText("");  // Clear output
 
         try (Connection conn = getConn();
@@ -44,9 +44,11 @@ private void viewCustomers() {
             // Loop through result rows
             while (rs.next()) {
                 output.append(
-                        rs.getInt("id") + " | " +
-                        rs.getString("name") + " | " +
-                        rs.getString("major") + "\n"
+                        rs.getInt("ID") + " | " +
+                        rs.getString("Name") + " | " +
+                        rs.getString("Email") + " | " +
+                        rs.getString("Address:") + " | " +
+                        rs.getString("Phone") + "\n"
                 );
             }
 
@@ -54,26 +56,26 @@ private void viewCustomers() {
             output.setText(ex.getMessage());
         }
     }
-    private void viewRestaurant () {
+    private void viewRestaurantAdmin () {
         output.setText("");  // Clear output
 
         try (Connection conn = getConn();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM Customer")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM Restaurant")) {
 
-            // Loop through result rows
+           // Loop through result rows
             while (rs.next()) {
                 output.append(
-                        rs.getInt("id") + " | " +
-                        rs.getString("name") + " | " +
-                        rs.getString("major") + "\n"
+                        rs.getInt("VendorID") + " | " +
+                        rs.getString("Location") + " | " +
+                        rs.getString("VendorName") + "\n"
                 );
             }
 
         } catch (Exception ex) {
             output.setText(ex.getMessage());
         }
-    }private void viewCustomers() {
+    }private void viewOrdersAdmin() {
         output.setText("");  // Clear output
 
         try (Connection conn = getConn();
